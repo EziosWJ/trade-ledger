@@ -1,0 +1,9 @@
+bin/
+*.db
+*.db-wal
+*.db-shm
+node_modules/
+web/dist/*
+!web/dist/placeholder.txt
+web/tsconfig.tsbuildinfo
+.task/

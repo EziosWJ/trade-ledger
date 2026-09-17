@@ -1,0 +1,78 @@
+version: "3"
+
+tasks:
+  dev:
+    desc: 前后端并发开发（后端 :8080 后台起，前端 :5173 前台跑并代理 /api；Ctrl+C 退出时连带停后端；也可开双终端分别跑 dev:backend / dev:frontend）
+    cmds:
+      - go run ./cmd/trade-ledger --addr :8080 & BACKEND_PID=$!; sleep 1; cd web && npm run dev; kill $BACKEND_PID
+
+  dev:backend:
+    desc: 后端热跑（需 air，否则 go run）
+    cmds:
+      - go run ./cmd/trade-ledger --addr :8080
+    sources:
+      - "**/*.go"
+      - "migrations/*.sql"
+
+  dev:frontend:
+    desc: 前端 dev server
+    dir: web
+    cmds:
+      - npm run dev
+
+  build:
+    desc: 构建单二进制（含前端 dist）
+    cmds:
+      - task: build:frontend
+      - task: build:backend
+
+  build:frontend:
+    dir: web
+    cmds:
+      - npm ci
+      - npm run build
+      - touch dist/placeholder.txt
+    sources:
+      - "web/src/**/*"
+      - "web/index.html"
+      - "web/package.json"
+    generates:
+      - "web/dist/**/*"
+
+  build:backend:
+    cmds:
+      - go build -o bin/trade-ledger ./cmd/trade-ledger
+    sources:
+      - "**/*.go"
+      - "migrations/*.sql"
+      - "web/dist/**/*"
+    generates:
+      - "bin/trade-ledger"
+
+  test:
+    desc: 后端测试 + 前端类型检查
+    cmds:
+      - go test ./...
+      - task: web:typecheck
+
+  web:typecheck:
+    dir: web
+    cmds:
+      - npm ci
+      - npx tsc -b
+
+  lint:
+    desc: go vet + 前端类型检查
+    cmds:
+      - go vet ./...
+      - task: web:typecheck
+
+  sqlc:generate:
+    desc: 从 schema 和命名查询重新生成 Go 数据访问代码
+    cmds:
+      - go run github.com/sqlc-dev/sqlc/cmd/sqlc@v1.27.0 generate
+
+  migrate:
+    desc: 应用数据库迁移（启动时也会自动执行）
+    cmds:
+      - go run ./cmd/trade-ledger --migrate-only
