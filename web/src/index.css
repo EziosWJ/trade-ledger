@@ -1,0 +1,621 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #eef1ec;
+  --color-ink: #17242b;
+  --color-fog: #66716d;
+  --color-seal: #c74332;
+  --color-carbon: #2d68aa;
+  --color-rule: #d9dfd8;
+  --font-display: "Songti SC", "STSong", "Noto Serif CJK SC", "Noto Serif SC", serif;
+}
+
+:root {
+  --adm-color-primary: #c74332;
+  --surface: #fbfcf8;
+  --surface-strong: #ffffff;
+  --shadow-card: 0 8px 24px rgb(23 36 43 / 0.055);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: #dfe5df;
+}
+
+body {
+  min-width: 320px;
+  max-width: 640px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans CJK SC", "PingFang SC", sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.app-shell {
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.2), transparent 220px),
+    var(--color-paper);
+}
+
+.page-title {
+  position: relative;
+  padding-top: 30px;
+  padding-bottom: 15px;
+}
+
+.page-title::after {
+  display: block;
+  width: 38px;
+  height: 3px;
+  margin-top: 16px;
+  border-radius: 999px;
+  background: var(--color-seal);
+  content: "";
+}
+
+.page-title h1 {
+  color: var(--color-ink);
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1.08;
+}
+
+.page-title p {
+  color: var(--color-fog);
+  line-height: 1.45;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--color-ink);
+  letter-spacing: -0.02em;
+}
+
+.section-heading::before {
+  width: 4px;
+  height: 18px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: var(--color-seal);
+  content: "";
+}
+
+.money {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+.balance-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-rule);
+  border-radius: 18px;
+  background: var(--surface-strong);
+  box-shadow: var(--shadow-card);
+}
+
+.balance-panel::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-carbon) 50%, var(--color-seal) 50%);
+  content: "";
+}
+
+.balance-panel .text-fog {
+  color: var(--color-fog);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.balance-panel .text-carbon {
+  color: var(--color-carbon);
+}
+
+.section-block,
+.timeline-section,
+.form-section {
+  position: relative;
+}
+
+.recent-panel,
+.party-panel {
+  border: 1px solid var(--color-rule);
+  border-radius: 16px;
+  background: var(--surface-strong);
+  box-shadow: var(--shadow-card);
+}
+
+/* Ledger rows use one quiet surface and one rule, so the hierarchy comes from spacing. */
+.ledger-row {
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.ledger-row:last-child {
+  border-bottom: none;
+}
+
+.tl-list {
+  --border-top: none;
+  --border-bottom: none;
+  --background-color: transparent;
+}
+
+.tl-list .adm-list-item {
+  padding-right: 16px;
+  padding-left: 16px;
+  background: transparent;
+}
+
+.tl-list .adm-list-item-content {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.tl-list .adm-list-item-content-main {
+  min-width: 0;
+}
+
+.recent-panel .money,
+.timeline-section .money {
+  color: var(--color-ink);
+}
+
+.recent-panel .text-carbon,
+.timeline-section .text-carbon {
+  color: var(--color-carbon);
+}
+
+.search-row {
+  align-items: stretch;
+}
+
+.search-row .adm-input {
+  flex: 1;
+}
+
+.party-panel .adm-list-item-content {
+  min-height: 63px;
+}
+
+.party-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.party-balance {
+  color: var(--color-fog);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.party-balance p {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.party-balance strong {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.balance-receivable strong {
+  color: var(--color-carbon);
+}
+
+.balance-payable strong {
+  color: var(--color-seal);
+}
+
+.balance-clear {
+  color: var(--color-fog);
+}
+
+.party-balance-detail {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid var(--color-rule);
+  border-radius: 14px;
+  background: var(--surface-strong);
+  box-shadow: var(--shadow-card);
+}
+
+.party-balance-detail p {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding-left: 10px;
+  border-left: 3px solid var(--color-rule);
+}
+
+.party-balance-detail .balance-receivable {
+  border-left-color: var(--color-carbon);
+}
+
+.party-balance-detail .balance-payable {
+  border-left-color: var(--color-seal);
+}
+
+.party-balance-detail strong {
+  font-size: 18px;
+}
+
+.timeline-section {
+  padding-bottom: 18px;
+}
+
+/* The left rail distinguishes a business entry from a red settlement entry. */
+.rail {
+  position: relative;
+  padding-left: 15px;
+}
+
+.rail::before {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  width: 3px;
+  border-radius: 999px;
+  background: var(--color-carbon);
+  content: "";
+}
+
+.rail-settle::before {
+  background: var(--color-seal);
+}
+
+.trade-form-section {
+  padding-bottom: 4px;
+}
+
+.field-label {
+  color: var(--color-fog);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.trade-type-selector {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.trade-type-selector .adm-selector-item {
+  justify-content: center;
+}
+
+.trade-direction-selector .adm-selector-item {
+  flex: 1;
+  justify-content: center;
+}
+
+.trade-direction {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0 10px;
+  border-bottom: 1px solid var(--color-rule);
+  background: transparent;
+  color: var(--color-fog);
+  font-size: 13px;
+}
+
+.trade-direction strong {
+  font-weight: 700;
+}
+
+.trade-direction-in strong {
+  color: var(--color-carbon);
+}
+
+.trade-direction-out strong {
+  color: var(--color-seal);
+}
+
+.trade-detail-panel {
+  padding: 0;
+}
+
+.amount-field,
+.note-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.amount-field .field-label,
+.note-field .field-label {
+  width: 28px;
+  flex: 0 0 28px;
+}
+
+.amount-field .adm-input,
+.note-field .adm-input {
+  flex: 1;
+}
+
+.amount-field .adm-input {
+  min-height: 50px;
+}
+
+.amount-field .adm-input-element {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.trade-submit {
+  --color: var(--color-seal);
+  --text-color: var(--color-seal);
+  --background-color: rgb(199 67 50 / 0.1);
+  --border-color: rgb(199 67 50 / 0.3);
+  min-height: 48px !important;
+  border: 1px solid rgb(199 67 50 / 0.3) !important;
+  border-radius: 12px;
+  background-color: rgb(199 67 50 / 0.1) !important;
+  color: var(--color-seal) !important;
+  box-shadow: none;
+  letter-spacing: 0.04em;
+  margin-top: 16px !important;
+}
+
+.selected-party,
+.trade-summary {
+  border: 1px solid rgb(45 104 170 / 0.26);
+  border-radius: 14px;
+  background: rgb(255 255 255 / 0.78);
+  box-shadow: 0 4px 14px rgb(23 36 43 / 0.035);
+}
+
+.selected-party .text-carbon {
+  font-weight: 600;
+}
+
+.trade-summary {
+  border-color: rgb(199 67 50 / 0.22);
+  background: rgb(255 255 255 / 0.72);
+}
+
+/* Inputs stay white and large enough for a thumb. Focus belongs to the field wrapper. */
+div.adm-input {
+  min-height: 46px;
+  padding: 7px 13px;
+  border: 1px solid var(--color-rule);
+  border-radius: 12px;
+  background: var(--surface-strong);
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+div.adm-input:focus-within {
+  border-color: var(--color-carbon);
+  box-shadow: 0 0 0 3px rgb(45 104 170 / 0.15);
+}
+
+div.adm-input .adm-input-element {
+  min-width: 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+div.adm-input .adm-input-element:focus,
+div.adm-input .adm-input-element:focus-visible {
+  outline: none;
+}
+
+div.adm-input .adm-input-element::placeholder {
+  color: #87918c;
+}
+
+.adm-selector {
+  gap: 8px;
+}
+
+.adm-selector .adm-selector-item {
+  min-height: 42px;
+  padding: 9px 14px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: rgb(255 255 255 / 0.64);
+  color: var(--color-fog);
+  font-size: 14px;
+}
+
+.adm-selector .adm-selector-item-active {
+  border-color: rgb(199 67 50 / 0.25);
+  background: rgb(199 67 50 / 0.1);
+  color: var(--color-seal);
+  font-weight: 700;
+}
+
+.adm-button:not(.adm-button-mini):not(.adm-button-small) {
+  min-height: 46px;
+  border-radius: 12px;
+  font-size: 15px;
+}
+
+.adm-button.bg-seal {
+  --color: var(--color-seal);
+  --background-color: var(--color-seal);
+  --border-color: var(--color-seal);
+  background-color: var(--color-seal) !important;
+  color: #fff;
+  box-shadow: 0 5px 12px rgb(199 67 50 / 0.18);
+}
+
+.adm-button:disabled {
+  opacity: 0.48;
+}
+
+.steps {
+  padding-top: 6px;
+  padding-bottom: 3px;
+}
+
+.steps > span {
+  min-width: 0;
+}
+
+.steps > span > span:last-child {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 5px 11px;
+  white-space: nowrap;
+}
+
+.steps .bg-seal {
+  box-shadow: 0 4px 10px rgb(199 67 50 / 0.16);
+}
+
+/* The bottom bar is a quiet shelf; only the create action rises above it. */
+.nav-shell {
+  z-index: 10;
+  left: 50%;
+  width: min(100%, 640px);
+  transform: translateX(-50%);
+}
+
+.tl-tabbar {
+  min-height: 67px;
+  border-top: 1px solid var(--color-rule);
+  background: rgb(251 252 248 / 0.96);
+  box-shadow: 0 -8px 22px rgb(23 36 43 / 0.04);
+  padding-bottom: env(safe-area-inset-bottom);
+  backdrop-filter: blur(10px);
+}
+
+.tl-tabbar .adm-tab-bar-item {
+  padding-top: 7px;
+  padding-bottom: 5px;
+  color: #87918c;
+}
+
+.tl-tabbar .adm-tab-bar-item-active {
+  color: var(--color-ink);
+}
+
+.tl-tabbar .adm-tab-bar-item-title {
+  margin-top: 2px;
+  font-size: 11px;
+}
+
+.seal-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  margin-top: -20px;
+  border: 4px solid var(--color-paper);
+  border-radius: 9999px;
+  background: var(--color-seal);
+  color: #fff;
+  font-size: 26px;
+  box-shadow: 0 5px 12px rgb(199 67 50 / 0.28);
+}
+
+.seal {
+  display: inline-block;
+  border: 2px solid currentColor;
+  border-radius: 6px;
+  padding: 1px 8px;
+  font-size: 12px;
+  line-height: 1.6;
+  transform: rotate(-4deg);
+  white-space: nowrap;
+}
+
+.seal-red {
+  color: var(--color-seal);
+}
+
+.seal-blue {
+  color: var(--color-carbon);
+}
+
+@keyframes seal-land {
+  from {
+    transform: rotate(-4deg) scale(1.5);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(-4deg) scale(1);
+    opacity: 1;
+  }
+}
+
+.seal-land {
+  animation: seal-land 0.25s ease-out;
+}
+
+div.adm-popup-body {
+  overflow: hidden;
+  border-radius: 18px 18px 0 0;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+:where(a, button, input, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-carbon);
+  outline-offset: 2px;
+}
+
+@media (max-width: 380px) {
+  .page-title h1 {
+    font-size: 29px;
+  }
+
+  .steps {
+    font-size: 12px;
+  }
+
+  .steps > span > span:last-child {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .trade-type-selector {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .trade-type-selector .adm-selector-item {
+    width: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
